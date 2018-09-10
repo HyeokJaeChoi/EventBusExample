@@ -8,16 +8,25 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     PagerAdapter viewPagerAdapater;
     ViewPager viewPager;
+    List<Integer> colorItems;
+    RecyclerView.Adapter colorAdapater;
+    RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +36,30 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager)findViewById(R.id.image_slider);
         TabLayout tabLayout = (TabLayout)findViewById(R.id.image_slider_dot);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.color_recyclerview);
         viewPagerAdapater = new ImagePagerAdapter(this);
         setSupportActionBar(toolbar);
 
-        appBarLayout.setExpanded(false, true);
+        appBarLayout.setExpanded(true, true);
         viewPager.setAdapter(viewPagerAdapater);
         tabLayout.setupWithViewPager(viewPager, true);
+
+        layoutManager = new GridLayoutManager(this, 4);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        colorItems = new ArrayList<>();
+        colorItems.add(getResources().getColor(R.color.colorAccent));
+        colorItems.add(getResources().getColor(R.color.colorAccent));
+        colorItems.add(getResources().getColor(R.color.colorAccent));
+        colorItems.add(getResources().getColor(R.color.colorAccent));
+        colorItems.add(getResources().getColor(R.color.colorPrimary));
+        colorItems.add(getResources().getColor(R.color.colorPrimary));
+        colorItems.add(getResources().getColor(R.color.colorPrimaryDark));
+        colorItems.add(getResources().getColor(R.color.colorPrimaryDark));
+
+        colorAdapater = new ColorRecyclerAdapter(colorItems);
+        recyclerView.setAdapter(colorAdapater);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
