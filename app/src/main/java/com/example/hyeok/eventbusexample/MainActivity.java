@@ -1,8 +1,10 @@
 package com.example.hyeok.eventbusexample;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,12 +23,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager)findViewById(R.id.image_slider);
+        TabLayout tabLayout = (TabLayout)findViewById(R.id.image_slider_dot);
         viewPagerAdapater = new ImagePagerAdapter(this);
         setSupportActionBar(toolbar);
 
+        appBarLayout.setExpanded(false, true);
         viewPager.setAdapter(viewPagerAdapater);
+        tabLayout.setupWithViewPager(viewPager, true);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

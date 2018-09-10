@@ -20,7 +20,7 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return imageResources.length;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ImagePagerAdapter extends PagerAdapter {
         ImageView imageView = (ImageView)view.findViewById(R.id.viewpager_image);
 
         imageView.setImageResource(imageResources[position % imageResources.length]);
-        container.addView(view);
+        container.addView(view, 0);
         return view;
     }
 
