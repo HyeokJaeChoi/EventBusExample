@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color">
+        <item>빨강</item>
+        <item>주황</item>
+        <item>노랑</item>
+        <item>초록</item>
+        <item>파랑</item>
+        <item>남색</item>
+        <item>보라</item>
+    </string-array>
+</resources>

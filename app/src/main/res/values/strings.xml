@@ -4,4 +4,6 @@
     <string name="bottom_navigation_item1">Test1</string>
     <string name="bottom_navigation_item2">Test2</string>
     <string name="bottom_navigation_item3">Test3</string>
+    <string name="input_color_amount_form">+</string>
+    <string name="add_color_amount">완료</string>
 </resources>

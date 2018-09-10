@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorFloatingButton">#33FF9C</color>
+    <color name="add_color_amount_button_color">#6dcff6</color>
 </resources>
