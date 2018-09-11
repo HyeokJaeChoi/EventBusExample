@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.LinearLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,16 +36,17 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter colorAdapater;
     RecyclerView.LayoutManager layoutManager;
+    LinearLayout colorListLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        viewPager = (ViewPager)findViewById(R.id.image_slider);
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.image_slider_dot);
-        recyclerView = (RecyclerView)findViewById(R.id.color_recyclerview);
+        viewPager = (ViewPager) findViewById(R.id.image_slider);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.image_slider_dot);
+        recyclerView = (RecyclerView) findViewById(R.id.color_recyclerview);
         colorItems = new ArrayList<>();
         colorAdapater = new ColorRecyclerAdapter(colorItems);
         viewPagerAdapater = new ImagePagerAdapter(this);
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (colorListLayout != null)
+                    EventBus.getDefault().postSticky(new RenderLayoutEvent(colorListLayout));
                 Intent intent = new Intent(MainActivity.this, ColorListActivity.class);
                 startActivity(intent);
             }
@@ -78,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onColorEvent(ColorEvent colorEvent){
+    public void onColorEvent(ColorEvent colorEvent) {
         Integer colorHexCode = colorEvent.getColorCode();
         Integer amount = colorEvent.getAmount();
         Integer listSize = colorItems.size();
 
-        for(int i = listSize; i < (listSize + amount); i++){
+        for (int i = listSize; i < (listSize + amount); i++) {
             colorItems.add(colorHexCode);
         }
 
@@ -93,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(colorAdapater);
     }
 
+    @Subscribe
+    public void onLayoutDeliverEvent(LayoutDeliverEvent layoutDeliverEvent) {
+        this.colorListLayout = layoutDeliverEvent.getLinearLayout();
+        Log.d("MainActivity", colorListLayout.getChildCount() + "");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
