@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,12 +45,16 @@ public class ColorListActivity extends AppCompatActivity {
         Integer colorHexCode = convertColorNameToHexCode(selectedColor);
         Integer amount = Integer.parseInt(inputAmount.getText().toString());
 
-        inputFormLayout.setVisibility(View.GONE);
-        formButton.setVisibility(View.VISIBLE);
+        if(amount > 10){
+            Toast.makeText(this, "10개 이하로 입력해주세요.", Toast.LENGTH_SHORT).show();
+        } else {
+            inputFormLayout.setVisibility(View.GONE);
+            formButton.setVisibility(View.VISIBLE);
 
-        ButtonInflaterUtil.inflateNewButton(this, colorListLayout, selectedColor, amount);
+            ButtonInflaterUtil.inflateNewButton(this, colorListLayout, selectedColor, amount);
 
-        EventBus.getDefault().post(new ColorEvent(colorHexCode, amount));
+            EventBus.getDefault().post(new ColorEvent(colorHexCode, amount));
+        }
     }
 
     public Integer convertColorNameToHexCode(String colorName){

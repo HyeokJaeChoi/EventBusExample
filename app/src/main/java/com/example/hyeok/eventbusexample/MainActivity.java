@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
             colorItems.add(colorHexCode);
         }
 
+        colorItems = RandomColorListUtil.randomizeColorList(colorItems);
+
         colorAdapater = new ColorRecyclerAdapter(colorItems);
         recyclerView.setAdapter(colorAdapater);
     }
