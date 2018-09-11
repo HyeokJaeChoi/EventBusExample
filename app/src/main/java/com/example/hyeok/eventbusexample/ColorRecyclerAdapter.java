@@ -37,10 +37,11 @@ public class ColorRecyclerAdapter extends RecyclerView.Adapter<ColorRecyclerAdap
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()){
                         case MotionEvent.ACTION_DOWN :
-                            longPressHandler.sendEmptyMessageAtTime(3000, event.getDownTime() + 3000);
+                            longPressHandler.sendEmptyMessageAtTime(3000, event.getDownTime() + 3000L);
                             break;
                         case MotionEvent.ACTION_UP :
-
+                        case MotionEvent.ACTION_MOVE :
+                            longPressHandler.removeMessages(3000);
                             break;
                     }
                     return false;

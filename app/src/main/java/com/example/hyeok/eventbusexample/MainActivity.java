@@ -6,17 +6,23 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     PagerAdapter viewPagerAdapater;
     ViewPager viewPager;
-    List<Integer> colorItems;
+    ArrayList<Integer> colorItems;
+    RecyclerView recyclerView;
     RecyclerView.Adapter colorAdapater;
     RecyclerView.LayoutManager layoutManager;
 
@@ -37,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager)findViewById(R.id.image_slider);
         TabLayout tabLayout = (TabLayout)findViewById(R.id.image_slider_dot);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.color_recyclerview);
+        recyclerView = (RecyclerView)findViewById(R.id.color_recyclerview);
+        colorItems = new ArrayList<>();
+        colorAdapater = new ColorRecyclerAdapter(colorItems);
         viewPagerAdapater = new ImagePagerAdapter(this);
         setSupportActionBar(toolbar);
 
@@ -45,21 +54,11 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapater);
         tabLayout.setupWithViewPager(viewPager, true);
 
+        EventBus.getDefault().register(this);
+
         layoutManager = new GridLayoutManager(this, 4);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
-        colorItems = new ArrayList<>();
-        colorItems.add(getResources().getColor(R.color.colorAccent));
-        colorItems.add(getResources().getColor(R.color.colorAccent));
-        colorItems.add(getResources().getColor(R.color.colorAccent));
-        colorItems.add(getResources().getColor(R.color.colorAccent));
-        colorItems.add(getResources().getColor(R.color.colorPrimary));
-        colorItems.add(getResources().getColor(R.color.colorPrimary));
-        colorItems.add(getResources().getColor(R.color.colorPrimaryDark));
-        colorItems.add(getResources().getColor(R.color.colorPrimaryDark));
-
-        colorAdapater = new ColorRecyclerAdapter(colorItems);
         recyclerView.setAdapter(colorAdapater);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -71,6 +70,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onColorEvent(ColorEvent colorEvent){
+        Integer colorHexCode = colorEvent.getColorCode();
+        Integer amount = colorEvent.getAmount();
+        Integer listSize = colorItems.size();
+
+        for(int i = listSize; i < (listSize + amount); i++){
+            colorItems.add(colorHexCode);
+        }
+
+        colorAdapater = new ColorRecyclerAdapter(colorItems);
+        recyclerView.setAdapter(colorAdapater);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
