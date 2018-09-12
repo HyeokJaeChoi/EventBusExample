@@ -2,7 +2,8 @@ package com.example.hyeok.eventbusexample;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.RecyclerView;
+
+import com.example.hyeok.eventbusexample.adapter.ColorRecyclerAdapter;
 
 public class LongPressHandler extends Handler {
 

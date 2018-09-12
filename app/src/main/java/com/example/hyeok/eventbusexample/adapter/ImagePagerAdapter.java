@@ -1,4 +1,4 @@
-package com.example.hyeok.eventbusexample;
+package com.example.hyeok.eventbusexample.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.hyeok.eventbusexample.R;
 
 public class ImagePagerAdapter extends PagerAdapter {
 

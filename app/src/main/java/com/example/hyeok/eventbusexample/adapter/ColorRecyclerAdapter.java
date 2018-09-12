@@ -1,4 +1,4 @@
-package com.example.hyeok.eventbusexample;
+package com.example.hyeok.eventbusexample.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.hyeok.eventbusexample.LongPressHandler;
+import com.example.hyeok.eventbusexample.R;
+
 import java.util.List;
-import java.util.Map;
 
 public class ColorRecyclerAdapter extends RecyclerView.Adapter<ColorRecyclerAdapter.ColorViewHolder> {
 

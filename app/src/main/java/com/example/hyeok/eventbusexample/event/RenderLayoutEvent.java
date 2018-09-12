@@ -1,4 +1,4 @@
-package com.example.hyeok.eventbusexample;
+package com.example.hyeok.eventbusexample.event;
 
 import android.widget.LinearLayout;
 

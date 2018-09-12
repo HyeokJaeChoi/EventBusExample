@@ -1,32 +1,35 @@
-package com.example.hyeok.eventbusexample;
+package com.example.hyeok.eventbusexample.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.LinearLayout;
+
+import com.example.hyeok.eventbusexample.event.ColorEvent;
+import com.example.hyeok.eventbusexample.adapter.ColorRecyclerAdapter;
+import com.example.hyeok.eventbusexample.adapter.ImagePagerAdapter;
+import com.example.hyeok.eventbusexample.event.LayoutDeliverEvent;
+import com.example.hyeok.eventbusexample.R;
+import com.example.hyeok.eventbusexample.event.RenderLayoutEvent;
+import com.example.hyeok.eventbusexample.util.RandomColorListUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
