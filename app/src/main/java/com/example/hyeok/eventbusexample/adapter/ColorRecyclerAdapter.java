@@ -1,13 +1,15 @@
 package com.example.hyeok.eventbusexample.adapter;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hyeok.eventbusexample.LongPressHandler;
 import com.example.hyeok.eventbusexample.R;
 
 import java.util.List;
@@ -20,14 +22,16 @@ public class ColorRecyclerAdapter extends RecyclerView.Adapter<ColorRecyclerAdap
         this.colorItems = colorItems;
     }
 
-    public void appendColorItem(int colorCode){
-        colorItems.add(colorCode);
-        notifyItemInserted(getItemCount() - 1);
-    }
-
     public class ColorViewHolder extends RecyclerView.ViewHolder{
-        final LongPressHandler longPressHandler = new LongPressHandler(this);
-        public View colorView;
+        private View colorView;
+        boolean isPostDelayed = false;
+        final Handler longPressHandler = new Handler(Looper.getMainLooper());
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                removeItem();
+            }
+        };
 
         public ColorViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,11 +41,13 @@ public class ColorRecyclerAdapter extends RecyclerView.Adapter<ColorRecyclerAdap
                 public boolean onTouch(View v, MotionEvent event) {
                     switch (event.getAction()){
                         case MotionEvent.ACTION_DOWN :
-                            longPressHandler.sendEmptyMessageAtTime(3000, event.getDownTime() + 3000L);
+                            isPostDelayed = longPressHandler.postDelayed(runnable, 3000);
+                            Log.d("ColorRecylcerAdapter", isPostDelayed + "");
                             break;
                         case MotionEvent.ACTION_UP :
                         case MotionEvent.ACTION_MOVE :
-                            longPressHandler.removeMessages(3000);
+                            v.performClick();
+                            longPressHandler.removeCallbacks(runnable);
                             break;
                     }
                     return false;
