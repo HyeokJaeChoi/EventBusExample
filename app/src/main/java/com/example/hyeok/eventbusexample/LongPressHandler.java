@@ -9,7 +9,7 @@ public class LongPressHandler extends Handler {
 
     public ColorRecyclerAdapter.ColorViewHolder colorViewHolder;
 
-    LongPressHandler(ColorRecyclerAdapter.ColorViewHolder colorViewHolder){
+    public LongPressHandler(ColorRecyclerAdapter.ColorViewHolder colorViewHolder){
         this.colorViewHolder = colorViewHolder;
     }
 
